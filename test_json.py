@@ -103,14 +103,46 @@ def check_line(data, buses):
     print(f"Start stops: {len(s)} {sorted(s)}")
     print(f"Transfer stops: {len(t)} {sorted(t)}")
     print(f"Finish stops: {len(f)} {sorted(f)}")
+    
+def arrival_times(data, stops):
+    lines =list(stops.keys())
+    lines = {key: [] for key in lines}
+    print(lines)
+    print()
+    worng_line = {}
+    
+    for line in lines:
+        b_time = None
+        for i in data: 
+            if i['bus_id'] == line:
+                if b_time == None:
+                    b_time = time.strptime(i['a_time'], "%H:%M")
+                else:
+                    a_time = time.strptime(i['a_time'], "%H:%M")
+                    if b_time >= a_time:
+                        # print(time.strftime("%H:%M", b_time) , ">=", time.strftime("%H:%M", a_time), i['stop_name'])
+                        worng_line[line] = i['stop_name']
+                        break
+                    else:
+                        b_time = a_time
+                        
+                # lines[line].append((i['a_time']))
+    print(len(worng_line.values()))
+    if len(worng_line.values()) > 0:
+        print("Arrival time test:")
+        for key, value in worng_line.items():
+            if value != None:
+                print(f"bus_id line {key}: wrong time on station {value}")
+    else:
+        print("OK")
 
-t4_1 = [{"bus_id":128,"stop_id":1,"stop_name":"Prospekt Avenue","next_stop":3,"stop_type":"S","a_time":"08:12"},{"bus_id":128,"stop_id":3,"stop_name":"Elm Street","next_stop":5,"stop_type":"","a_time":"08:19"},{"bus_id":128,"stop_id":5,"stop_name":"Fifth Avenue","next_stop":7,"stop_type":"O","a_time":"08:25"},{"bus_id":128,"stop_id":7,"stop_name":"Sesame Street","next_stop":0,"stop_type":"F","a_time":"08:37"},{"bus_id":512,"stop_id":4,"stop_name":"Bourbon Street","next_stop":6,"stop_type":"","a_time":"08:13"},{"bus_id":512,"stop_id":6,"stop_name":"Sunset Boulevard","next_stop":0,"stop_type":"F","a_time":"08:16"}]
-t4_2 = [{"bus_id":128,"stop_id":1,"stop_name":"Prospekt Avenue","next_stop":3,"stop_type":"S","a_time":"08:12"},{"bus_id":128,"stop_id":3,"stop_name":"Elm Street","next_stop":5,"stop_type":"","a_time":"08:19"},{"bus_id":128,"stop_id":5,"stop_name":"Fifth Avenue","next_stop":7,"stop_type":"O","a_time":"08:25"},{"bus_id":128,"stop_id":7,"stop_name":"Sesame Street","next_stop":0,"stop_type":"F","a_time":"08:37"},{"bus_id":256,"stop_id":2,"stop_name":"Pilotow Street","next_stop":3,"stop_type":"S","a_time":"09:20"},{"bus_id":256,"stop_id":3,"stop_name":"Elm Street","next_stop":6,"stop_type":"","a_time":"09:45"},{"bus_id":256,"stop_id":6,"stop_name":"Sunset Boulevard","next_stop":7,"stop_type":"","a_time":"09:59"},{"bus_id":256,"stop_id":7,"stop_name":"Sesame Street","next_stop":0,"stop_type":"F","a_time":"10:12"},{"bus_id":512,"stop_id":4,"stop_name":"Bourbon Street","next_stop":6,"stop_type":"S","a_time":"08:13"},{"bus_id":512,"stop_id":6,"stop_name":"Sunset Boulevard","next_stop":0,"stop_type":"F","a_time":"08:16"}]
-t4_3 = [{"bus_id" : 128, "stop_id" : 1, "stop_name" : "Prospekt Avenue", "next_stop" : 3, "stop_type" : "S", "a_time" : "08:12"}, {"bus_id" : 128, "stop_id" : 3, "stop_name" : "Elm Street", "next_stop" : 5, "stop_type" : "", "a_time" : "08:19"}, {"bus_id" : 128, "stop_id" : 5, "stop_name" : "Fifth Avenue", "next_stop" : 7, "stop_type" : "O", "a_time" : "08:25"},{"bus_id" : 128, "stop_id" : 7, "stop_name" : "Sesame Street", "next_stop" : 0, "stop_type" : "F", "a_time" : "08:37"}, {"bus_id" : 256, "stop_id" : 2, "stop_name" : "Pilotow Street", "next_stop" : 3, "stop_type" : "S", "a_time" : "09:20"}, {"bus_id" : 256, "stop_id" : 3, "stop_name" : "Elm Street", "next_stop" : 6, "stop_type" : "", "a_time" : "09:45"}, {"bus_id" : 256, "stop_id" : 6, "stop_name" : "Sunset Boulevard", "next_stop" : 7, "stop_type" : "", "a_time" : "09:59"}, {"bus_id" : 256, "stop_id" : 7, "stop_name" : "Sesame Street", "next_stop" : 0, "stop_type" : "F", "a_time" : "10:12"}, {"bus_id" : 512, "stop_id" : 4, "stop_name" : "Bourbon Street", "next_stop" : 6, "stop_type" : "S", "a_time" : "08:13"}, {"bus_id" : 512, "stop_id" : 6, "stop_name" : "Sunset Boulevard", "next_stop" : 0, "stop_type" : "F", "a_time" : "08:16"}]
+t5_1 = [{"bus_id":128,"stop_id":1,"stop_name":"Prospekt Avenue","next_stop":3,"stop_type":"S","a_time":"08:12"},{"bus_id":128,"stop_id":3,"stop_name":"Elm Street","next_stop":5,"stop_type":"","a_time":"08:19"},{"bus_id":128,"stop_id":5,"stop_name":"Fifth Avenue","next_stop":7,"stop_type":"O","a_time":"08:17"},{"bus_id":128,"stop_id":7,"stop_name":"Sesame Street","next_stop":0,"stop_type":"F","a_time":"08:07"},{"bus_id":256,"stop_id":2,"stop_name":"Pilotow Street","next_stop":3,"stop_type":"S","a_time":"09:20"},{"bus_id":256,"stop_id":3,"stop_name":"Elm Street","next_stop":6,"stop_type":"","a_time":"09:45"},{"bus_id":256,"stop_id":6,"stop_name":"Sunset Boulevard","next_stop":7,"stop_type":"","a_time":"09:44"},{"bus_id":256,"stop_id":7,"stop_name":"Sesame Street","next_stop":0,"stop_type":"F","a_time":"10:12"},{"bus_id":512,"stop_id":4,"stop_name":"Bourbon Street","next_stop":6,"stop_type":"S","a_time":"08:13"},{"bus_id":512,"stop_id":6,"stop_name":"Sunset Boulevard","next_stop":0,"stop_type":"F","a_time":"08:16"}]
+t5_2 = [{"bus_id":512,"stop_id":4,"stop_name":"Bourbon Street","next_stop":6,"stop_type":"S","a_time":"08:13"},{"bus_id":512,"stop_id":6,"stop_name":"Sunset Boulevard","next_stop":0,"stop_type":"F","a_time":"08:16"}]
 
 # check(t3)
-stops = search_bus(t4_2)
-check_line(t4_2, stops)
+stops = search_bus(t5_2)
+# check_line(t4_2, stops)
+arrival_times(t5_2, stops)
 
 class Test_main(unittest.TestCase):
     def test_check(self):
